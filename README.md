@@ -1,12 +1,38 @@
-# React + Vite
+# ⏰ Countdown Clock Component (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully-featured countdown timer component built with React 17, JavaScript, and modern hooks.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Countdown Timer with precise second-by-second updates
+- Start/Restart functionality
+- Pause/Resume controls with toggle behavior
+- Reset functionality to clear all inputs and timer
+- Smart Time Conversion (handles 65 seconds → 01:05 automatically)
+- Memory Leak Prevention with proper cleanup mechanisms
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧱 Tech Stack
+
+- React 17.0.1
+- JavaScript ES6+
+- React Hooks (useState, useEffect, useRef)
+- No external dependencies
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install dependencies
+npm install
+
+### 2. Start the dev server
+npm run dev
+
+Open your browser and visit: http://localhost:5173
+
+---
+
+## 📄 License
+MIT License. Feel free to use and modify.
