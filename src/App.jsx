@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useReducer } from 'react'
+import { timerReducer, initialTimerState, timerActions } from './hooks/timer.reducer'
 import './App.css'
 
 function App() {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
-  const [isRunning, setIsRunning] = useState(false)
-  const [isPaused, setIsPaused] = useState(false)
-  const [totalSeconds, setTotalSeconds] = useState(0)
+  const [timerState, dispatch] = useReducer(timerReducer, initialTimerState)
   const intervalRef = useRef(null)
 
 
@@ -20,45 +19,25 @@ function App() {
     const inputMinutes = parseInt(minutes) || 0
     const inputSeconds = parseInt(seconds) || 0
     const totalSeconds = inputMinutes * 60 + inputSeconds
-
-    // if the user has already started the timer, we reset it
-    setIsRunning(false);
-    setIsPaused(false);
-
-    // start/ reset the timer
-    setTimeout(()=>{
-      setTotalSeconds(totalSeconds)
-      setIsRunning(true)
-    })
+    
+    dispatch(timerActions.start(totalSeconds))
   }
 
   const pauseResume = () => {
-    // only work if the user has started the timer
-    if(isRunning){
-      setIsPaused(!isPaused)
-    }
+    dispatch(timerActions.pause())
   }
 
   const reset = () => {
     setMinutes(0);
     setSeconds(0);
-    setIsRunning(false);
-    setIsPaused(false);
-    setTotalSeconds(0);
+    dispatch(timerActions.reset())
   }
 
   // countDown function
   useEffect(()=>{
-    if(isRunning && !isPaused) {
+    if(timerState.isRunning && !timerState.isPaused) {
       intervalRef.current = setInterval(() => {
-        setTotalSeconds(prev => {
-          if (prev <= 1) {
-            setIsRunning(false);
-            setIsPaused(false);
-            return 0;
-          }
-          return prev - 1;
-        });
+        dispatch(timerActions.tick())
       }, 1000)
     }
     else{
@@ -79,7 +58,7 @@ function App() {
         intervalRef.current = null
       }
     }
-  }, [isRunning, isPaused])
+  }, [timerState.isRunning, timerState.isPaused])
 
   return (
     <>
@@ -92,7 +71,7 @@ function App() {
       <button onClick={start}>START</button>
       <button onClick={pauseResume}>PAUSE / RESUME</button>
       <button onClick={reset}>RESET</button>
-      <h1 data-testid="running-clock">{formatTime(totalSeconds)}</h1>
+      <h1 data-testid="running-clock">{formatTime(timerState.totalSeconds)}</h1>
     </>
   )
 }
